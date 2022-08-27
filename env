@@ -1,0 +1,2 @@
+PORT=                       # port on which this service will run
+RERANKING_SRV_ENDPOINT=     # reranker service API endpoint
