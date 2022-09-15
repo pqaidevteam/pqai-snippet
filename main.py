@@ -6,9 +6,12 @@ import os
 import dotenv
 import uvicorn
 from fastapi import FastAPI
-from core.snippet import SnippetExtractor
+
 
 dotenv.load_dotenv()
+
+from core.snippet import SnippetExtractor
+
 app = FastAPI()
 
 
