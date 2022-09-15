@@ -1,7 +1,5 @@
-"""
-Utility Functions Module
-"""
 import re
+import json
 from pathlib import Path
 import numpy as np
 
@@ -21,10 +19,10 @@ def is_generic(word):
     """Check if a given word is a generic word, e.g., 'the', 'of', etc.
     It is determined on the basis of a hand-picked list of keywords
     determined as generic words commonly used in patents.
-
+    
     Args:
         word (str): Word to be checked.
-
+    
     Returns:
         bool: True if the word is a generic word, False otherwise.
     """
@@ -33,10 +31,10 @@ def is_generic(word):
 
 def get_sentences(text):
     """Split a given (English) text (possibly multiline) into sentences.
-
+    
     Args:
         text (str): Text to be split into sentences.
-
+    
     Returns:
         list: Sentences.
     """
@@ -63,10 +61,10 @@ def get_sentences(text):
 def get_paragraphs(text):
     r"""Split a text into paragraphs. Assumes paragraphs are separated
     by new line characters (\n).
-
+    
     Args:
         text (str): Text to be split into paragraphs.
-
+    
     Returns:
         list: Paragraphs.
     """
@@ -75,14 +73,14 @@ def get_paragraphs(text):
 
 def tokenize(text, lowercase=True, alphanums=False):
     """Get tokens (words) from given text.
-
+    
     Args:
         text (str): Text to be tokenized (expects English text).
         lowercase (bool, optional): Whether the text should be
             lowercased before tokenization.
         alphanums (bool, optional): Whether words that contain numbers
             e.g., "3D" should be considered.
-
+    
     Returns:
         list: Array of tokens.
     """
@@ -96,56 +94,20 @@ def tokenize(text, lowercase=True, alphanums=False):
 
 
 def normalize_rows(M):
-    """It takes a matrix and normalizes each row so that the sum of squares of each row is 1.
-    For example, if the input is:
-    [[3 4]
-     [2 3]])
-    Then the output should be:
-    [[0.6 0.8]  # = [[3/5 4/5] [2/7 3/7]]^T as instructed in part 2 above.)
-
-    Args:
-        M (n-d Array): Used to Store the matrix that is being normalized.
-    Returns:
-         (n-d Array): A matrix with each row normalized to a length of 1.
-    """
     return normalize_along_axis(M, 1)
 
 
 def normalize_cols(M):
-    """The normalize_cols function normalizes the columns of a given matrix.
-
-    Args:
-        M (n-d Array): Used to store the matrix that being normalized.
-    Returns:
-    (n-d Array): A matrix with each column normalized.
-    """
     return normalize_along_axis(M, 0)
 
 
 def normalize_along_axis(M, axis):
-    """The normalize_along_axis function normalizes the rows of a matrix along an axis.
-
-    Parameters:
-        M (numpy array): The matrix to be normalized.
-
-        axis (int): The dimension to normalize along, 0 for rows and 1 for columns.
-    Returns:
-        numpy array: A normalized version of the input matrix with respect to the specified dimension.
-    """
     epsilon = np.finfo(float).eps
     norms = np.sqrt((M * M).sum(axis=axis, keepdims=True))
     norms += epsilon  # to avoid division by zero
     return M / norms
 
-
 def get_elements(text):
-    """The function first splits the text into paragraphs, then it splits each paragraph into sentences.
-
-    Args:
-    text (str): Used to Pass the text that should be parsed.
-    Returns:
-        (list): A list of strings containing the sentences in the text.
-    """
     elements = []
     for paragraph in get_paragraphs(text):
         elements += get_sentences(paragraph)
