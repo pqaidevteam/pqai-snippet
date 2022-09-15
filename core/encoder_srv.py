@@ -1,48 +1,30 @@
-"""Server file
-Attributes:
-    app (fastapi.applications.FastAPI): Fast API app
+"""
+Encoder Service
 """
 import os
-import dotenv
-import uvicorn
-from fastapi import FastAPI
+import requests
+
+ENCODER_SRV_ENDPOINT = os.environ.get("ENCODER_SRV_ENDPOINT")
+assert isinstance(ENCODER_SRV_ENDPOINT, str)
 
 
-dotenv.load_dotenv()
+def encode(data, encoder):
+    """Returns the encoded version of the string using from the API.
 
-from core.snippet import SnippetExtractor
+    Args
+    data (str): the data to be encoded.
+    encoder: Used to Specify the encoder to use.
 
-app = FastAPI()
-
-
-@app.get("/snippet")
-async def extract_snippet(query, doc):
-    """Extracts snippet from long text.
-
-    Args:
-        query (str): Query
-        doc (str): Text from which snippet is extracted
     Returns:
-        str: Snippet
+         The encoded data.
     """
-    snippet = SnippetExtractor.extract_snippet(query, doc)
-    return snippet
-
-
-@app.get("/mapping")
-async def create_mapping(query, doc):
-    """Extracts snippet from long text.
-
-    Args:
-        query (str): Query
-        doc (str): Text from which snippet is extracted
-    Returns:
-        str: Snippet
-    """
-    mapping = SnippetExtractor.map(query, doc)
-    return mapping
-
-
-if __name__ == "__main__":
-    port = int(os.environ["PORT"])
-    uvicorn.run(app, host="127.0.0.1", port=port)
+    url = f"{ENCODER_SRV_ENDPOINT}/encode"
+    payload = {"data": data, "encoder": encoder}
+    try:
+        response = requests.post(url, json=payload)
+    except Exception as e:
+        raise e
+    if response.status_code != 200:
+        print(data)
+        raise Exception(response.text)
+    return response.json().get("encoded")
