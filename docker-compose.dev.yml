@@ -1,0 +1,18 @@
+version: '3.2'
+
+services:
+  pqai_snippet_api:
+    container_name: pqai_snippet_dev
+    build: .
+    command:  bash -c "pip install --no-cache-dir --upgrade -r /app/requirements.txt && uvicorn main:app --host 0.0.0.0 --port 8258"
+    restart: always
+    ports: 
+      - ${PORT}:8258
+    volumes:
+      - type: bind
+        source: ./assets
+        target: /app/assets
+    environment:
+      - PORT=${PORT}
+      - RERANKING_SRV_ENDPOINT=${RERANKING_SRV_ENDPOINT}
+      - ENCODER_SRV_ENDPOINT=${ENCODER_SRV_ENDPOINT}
