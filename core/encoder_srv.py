@@ -1,6 +1,3 @@
-"""
-Encoder Service
-"""
 import os
 import requests
 
@@ -9,15 +6,6 @@ assert isinstance(ENCODER_SRV_ENDPOINT, str)
 
 
 def encode(data, encoder):
-    """Returns the encoded version of the string using from the API.
-
-    Args
-    data (str): the data to be encoded.
-    encoder: Used to Specify the encoder to use.
-
-    Returns:
-         The encoded data.
-    """
     url = f"{ENCODER_SRV_ENDPOINT}/encode"
     payload = {"data": data, "encoder": encoder}
     try:
