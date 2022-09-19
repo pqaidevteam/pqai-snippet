@@ -73,28 +73,6 @@ def get_paragraphs(text):
     return [s.strip() for s in re.split("\n+", text) if s.strip()]
 
 
-def tokenize(text, lowercase=True, alphanums=False):
-    """Get tokens (words) from given text.
-
-    Args:
-        text (str): Text to be tokenized (expects English text).
-        lowercase (bool, optional): Whether the text should be
-            lowercased before tokenization.
-        alphanums (bool, optional): Whether words that contain numbers
-            e.g., "3D" should be considered.
-
-    Returns:
-        list: Array of tokens.
-    """
-    if lowercase:
-        matches = re.findall(r"\b[a-z]+\b", text.lower())
-    else:
-        matches = re.findall(r"\b[a-z]+\b", text)
-    if not matches:
-        return []
-    return matches
-
-
 def normalize_rows(M):
     """It takes a matrix and normalizes each row so that the sum of squares of each row is 1.
     For example, if the input is:
