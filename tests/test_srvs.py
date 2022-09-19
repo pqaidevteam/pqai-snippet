@@ -47,7 +47,5 @@ class TestRerankingAPI(unittest.TestCase):
         self.assertRaises(Exception, ConceptMatchRanker.score, query, docs)
 
 
-
-
 if __name__ == "__main__":
     unittest.main()
