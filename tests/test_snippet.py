@@ -28,8 +28,15 @@ class TestSnippetExtractor(unittest.TestCase):
 		self.longquery = 'A method of sampling formation fluids. The method includes lowering a sampling apparatus into a borewell.'
 		self.text = 'A fluid sampling system retrieves a formation fluid sample from a formation surrounding a wellbore extending along a wellbore axis, wherein the formation has a virgin fluid and a contaminated fluid therein. The system includes a sample inlet, a first guard inlet positioned adjacent to the sample inlet and spaced from the sample inlet in a first direction along the wellbore axis, and a second guard inlet positioned adjacent to the sample inlet and spaced from the sample inlet in a second, opposite direction along the wellbore axis. At least one cleanup flowline is fluidly connected to the first and second guard inlets for passing contaminated fluid, and an evaluation flowline is fluidly connected to the sample inlet for collecting virgin fluid.'
 
-	def test__can_create_snippet(self):
+	def test__can_add_few_words_before_snippet(self):
 		snip = SnippetExtractor.extract_snippet(self.query, self.text)
+		self.assertIsInstance(snip, str)
+		self.assertGreater(len(snip), 10)
+
+	def test__can_add_few_words_after_snippet(self):
+		self.query1 = 'fluid formation sampling'
+		self.text1 = 'I am mayank rakesh and I live with my parents in dehradun with three dogs and one cat. A fluid sampling system retrieves a formation fluid sample from a formation surrounding a wellbore extending along a wellbore axis, wherein the formation has a virgin fluid and a contaminated fluid therein. At least one cleanup flowline is fluidly connected to the first and second guard inlets for passing contaminated fluid, and an evaluation flowline is fluidly connected to the sample inlet for collecting virgin fluid.'
+		snip = SnippetExtractor.extract_snippet(self.query1, self.text1)
 		self.assertIsInstance(snip, str)
 		self.assertGreater(len(snip), 10)
 
@@ -80,7 +87,6 @@ class TestSubsentSnippetExtractor(unittest.TestCase):
 			patent = json.load(f)
 			self.doc = patent.get("description")
 
-	@unittest.skip("temp")
 	def test__can_extract_snippet(self):
 		snippet = SubsentSnippetExtractor(self.query, self.doc).extract()
 		self.assertIsInstance(snippet, str)
