@@ -17,6 +17,24 @@ REST API for extracting passages from full text patent documents, primarily aime
 | `GET`    | `/snippet`  | Return a snippet for given query and document |
 | `GET`    | `/mapping`  | Return mapping against claim elements         |
 
+## How to run?
+
+### From command line
+
+1. Clone this repository
+2. Download required [assets](https://s3.amazonaws.com/pqai.s3/public/assets-pqai-snippet.zip) and extract them to `/assets` directory
+3. Create a `.env` file using `/env` template and set environment variable values
+4. Create a virtual environment and install dependencies: `pip install -r requirements.txt`
+5. Make sure the [encoder service](https://github.com/pqaidevteam/pqai-encoder) and the [reranker service](https://github.com/pqaidevteam/pqai-reranker) is running and properly configured in `.env` file
+6. Run the service: `python3 main.py`
+
+### As docker container
+
+1. Clone this repository
+1. Create a `.env` file using `/env` template and set environment variable values
+1. Give execution permission to the deployment script: `chmod +x deploy.sh`
+1. Run deployment script: `bash deploy.sh`
+
 ## License
 
 The project is open-source under the MIT license.
