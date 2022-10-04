@@ -1,40 +1,23 @@
 """Test for service API
-Attributes:
-    dotenv_file (str): Absolute path to .env file (used for reading port no.)
-    HOST (str): IP address of the host where service is running
-    PORT (str): Port no. on which the server is listening
-    PROTOCOL (str): `http` or `https`
 """
+import sys
 import unittest
-import os
-import json
-import re
-import socket
 from pathlib import Path
-import requests
-import numpy as np
 from dotenv import load_dotenv
+from fastapi.testclient import TestClient
 
-TEST_DIR = str(Path(__file__).parent.resolve())
-BASE_DIR = str(Path(__file__).parent.parent.resolve())
-ENV_FILE = f"{BASE_DIR}/.env"
-load_dotenv(ENV_FILE)
+BASE_DIR = Path(__file__).parent.parent.resolve()
+ENV_FILE = BASE_DIR / ".env"
 
-PROTOCOL = "http"
-HOST = "localhost"
-PORT = os.environ["PORT"]
+load_dotenv(ENV_FILE.as_posix())
+sys.path.append(BASE_DIR.as_posix())
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_not_running = sock.connect_ex((HOST, int(PORT))) != 0
+from main import app
 
-if server_not_running:
-    print("Server is not running. API tests will be skipped.")
-
-
-@unittest.skipIf(server_not_running, "Works only when true")
 class TestAPI(unittest.TestCase):
 
-    """Check operation of all API routes"""
+    def setUp(self):
+        self.client = TestClient(app)
 
     def test__can_extract_snippet(self):
         """Check if a valid response is returned for a legit request"""
@@ -44,7 +27,7 @@ class TestAPI(unittest.TestCase):
             "query": query,
             "doc": doc
         }
-        response = self.call_route("/snippet", params)
+        response = self.client.get("/snippet", params=params)
         self.assertEqual(200, response.status_code)
 
     def test__can_create_mapping(self):
@@ -54,22 +37,8 @@ class TestAPI(unittest.TestCase):
             "query": query,
             "doc": doc
         }
-        response = self.call_route("/snippet", params)
+        response = self.client.get("/snippet", params=params)
         self.assertEqual(200, response.status_code)
-
-    def call_route(self, route, params):
-        """Make a request to given route with given parameters
-        Args:
-            route (str): Route, e.g. '/snippet'
-            params (dict): Query string parameters
-        Returns:
-            requests.models.Response: Response against HTTP request
-        """
-        route = route.lstrip("/")
-        url = f"{PROTOCOL}://{HOST}:{PORT}/{route}"
-        response = requests.get(url, params)
-        return response
-
 
 if __name__ == "__main__":
     unittest.main()

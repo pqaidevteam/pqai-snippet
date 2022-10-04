@@ -12,3 +12,6 @@ venv.bak/
 
 /assets/*
 !assets/README.md
+
+/.vscode
+/.coverage
