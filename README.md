@@ -4,11 +4,11 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![GitHub license](https://img.shields.io/github/license/pqaidevteam/pqai?style=plastic)](https://github.com/pqaidevteam/pqai/blob/master/LICENSE)
 
-_Note: This repository is under active development and not ready for production yet._
-
 # PQAI Snippet Extraction Service
 
 REST API for extracting passages from full text patent documents, primarily aimed to explain/justify the relevance of a document to a user's search query.
+
+For more detailed information, please refer to [PQAI Wiki](https://github.com/pqaidevteam/pqai/wiki/pqai-snippet).
 
 ## Routes
 
@@ -16,9 +16,6 @@ REST API for extracting passages from full text patent documents, primarily aime
 | -------- | ----------- | --------------------------------------------- |
 | `GET`    | `/snippet`  | Return a snippet for given query and document |
 | `GET`    | `/mapping`  | Return mapping against claim elements         |
-
-
-For more detailed information, please refer to [PQAI Wiki](https://github.com/pqaidevteam/pqai/wiki/pqai-snippet).
 
 ## How to run?
 
