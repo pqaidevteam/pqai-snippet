@@ -16,6 +16,9 @@ REST API for extracting passages from full text patent documents, primarily aime
 | -------- | ----------- | --------------------------------------------- |
 | `GET`    | `/snippet`  | Return a snippet for given query and document |
 | `GET`    | `/mapping`  | Return mapping against claim elements         |
+<br>
+For more detailed information, please refer to [PQAI Wiki](https://github.com/pqaidevteam/pqai/wiki/pqai-snippet).
+</br>
 
 ## How to run?
 
